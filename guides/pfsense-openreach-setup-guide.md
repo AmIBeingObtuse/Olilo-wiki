@@ -33,8 +33,6 @@ Openreach ONT → pfSense WAN
 pfSense LAN → switch / access point / internal network
 ```
 
-No ISP router is required.
-
 ---
 
 # WAN Setup
