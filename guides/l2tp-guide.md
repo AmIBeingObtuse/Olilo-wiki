@@ -18,7 +18,7 @@ This is **not a privacy VPN** like PIA or NordVPN. It won't hide your traffic or
 - **Get a static IP** - your line may only offer a dynamic IP, or none at all. L2TP provides a fixed IPv4 address with custom reverse DNS.
 - **Plenty of IPv6** - you also get a **/48** IPv6 prefix. That's **65,536** `/64` subnets, so every VLAN or network you run can have its own.
 - **Need more IPs** - extra static addresses can be routed to you for self-hosting, mail, game servers and monitoring.
-- **No port restrictions** - run services needing reliable inbound connectivity without your ISP's NAT or port restrictions.
+- **No port restrictions** - run services without port restrictions or someone mangling your packets
 - **Use Olilo's peering** - route traffic out via Olilo's network rather than your current ISP's, known to fix poor routing with small ISPs.
 - **Failover without renumbering** - the IP lives on the tunnel, so you can switch lines (e.g. fibre to 5G backup) and keep the same IP.
 
@@ -169,7 +169,7 @@ Then set up IPv6 on each LAN:
    Save and Apply
 ```
 
-Clamp TCP MSS to **1420** so large packets don't stall.
+Clamp TCP MSS to **1420** for IPv4 and **1400** for IPv6 so large packets don't stall.
 
 ```
 Go to **Firewall -> Settings -> Normalization**
