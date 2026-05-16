@@ -3,7 +3,7 @@ title: L2TP Guide
 description: Guide on the basics of the L2TP Service
 category: Setup
 author: FingerlessGloves
-lastUpdated: 16/05/2026
+lastUpdated: 17/05/2026
 ---
 
 # L2TP Guide
@@ -14,13 +14,13 @@ This is **not a privacy VPN** like PIA or NordVPN. It won't hide your traffic or
 
 ## What you can use it for
 
-- **Escape CGNAT** — many 4G/5G, Starlink, altnet and budget connections put you behind Carrier-Grade NAT, blocking inbound traffic. L2TP gives you a proper public IP again.
-- **Get a static IP** — your line may only offer a dynamic IP, or none at all. L2TP provides a fixed IPv4 address with custom reverse DNS.
-- **Plenty of IPv6** — you also get a **/48** IPv6 prefix. That's **65,536** `/64` subnets, so every VLAN or network you run can have its own.
-- **Need more IPs** — extra static addresses can be routed to you for self-hosting, mail, game servers and monitoring.
-- **Self-hosting** — run services needing reliable inbound connectivity without your ISP's NAT or port restrictions.
-- **Use Olilo's peering** — route traffic out via Olilo's network rather than your current ISP's, known to fix poor routing with small ISPs.
-- **Failover without renumbering** — the IP lives on the tunnel, so you can switch lines (e.g. fibre to 5G backup) and keep the same IP.
+- **Escape CGNAT** - many 4G/5G, Starlink, altnet and budget connections put you behind Carrier-Grade NAT, blocking inbound traffic. L2TP gives you a proper public IP again.
+- **Get a static IP** - your line may only offer a dynamic IP, or none at all. L2TP provides a fixed IPv4 address with custom reverse DNS.
+- **Plenty of IPv6** - you also get a **/48** IPv6 prefix. That's **65,536** `/64` subnets, so every VLAN or network you run can have its own.
+- **Need more IPs** - extra static addresses can be routed to you for self-hosting, mail, game servers and monitoring.
+- **No port restrictions** - run services needing reliable inbound connectivity without your ISP's NAT or port restrictions.
+- **Use Olilo's peering** - route traffic out via Olilo's network rather than your current ISP's, known to fix poor routing with small ISPs.
+- **Failover without renumbering** - the IP lives on the tunnel, so you can switch lines (e.g. fibre to 5G backup) and keep the same IP.
 
 ## Compatibility
 
@@ -50,16 +50,16 @@ Username:      firstname.lastname@olilo.l2tp
 Password:      supplied by Olilo after ordering
 ```
 
-Olilo's service does **not** use IPsec — if your router lists "L2TP/IPsec", leave IPsec disabled.
+Olilo's service does **not** use IPsec, ensure IPsec is disabled on your L2TP client.
 
 Once the tunnel is up, your primary static IPv4 `/32` is assigned automatically. The /48 IPv6 needs to be requested via DHCPv6 Prefix Delegation, if you want SLAAC with static routing of the `/48`, please contact Olilo Support. For most users the default of DHCPv6 PD will work just fine.
 
-> **Note:** The L2TP/IPv4 tunnel uses an MTU of **1460**. Set this on the tunnel interface and clamp TCP MSS on your LAN, or some sites may hang or partially load.  
+> **Note:** The L2TP/IPv4 tunnel uses an MTU of **1460**. Set this on the tunnel interface and clamp TCP MSS on your egress L2TP traffic, or some sites may hang or partially load.  
 > If your WAN MTU is lower than 1500, e.g. 1492, you will need to adjust the MTU of the L2TP and the MSS value you're clamping to, dropping it by the difference, in this case 8 bytes.
 
 ## Config examples
 
-> **Heads up:** These are starting points, not the only way to do it. The L2TP service is just a routed connection — how you use it is up to you (single device, whole-network gateway, failover, a DMZ for servers, and so on). Treat the examples below as a baseline and adjust to suit your own network.
+> **Note:** These are starting points, not the only way to do it. How you use it is up to you (single device, whole-network gateway, failover, a DMZ for servers, and so on). Treat the examples below as a baseline and adjust to suit your own network.
 
 Replace the username, password, WAN interface and IPv6 prefix with your own details.
 
@@ -68,7 +68,7 @@ Replace the username, password, WAN interface and IPv6 prefix with your own deta
 This assumes a stock RouterOS default config, which already has `WAN`/`LAN` interface lists and a `srcnat ... action=masquerade` rule for the `WAN` list.
 
 ```routeros
-# L2TP client — IPsec disabled, MTU 1460, assuming 1500 MTU parent
+# L2TP client no IPsec, MTU 1460, assuming 1500 MTU parent
 # default-route-distance=1 so the tunnel is the default route once up
 /interface l2tp-client
 add name=olilo connect-to=l2tp.olilo.co.uk \
@@ -86,7 +86,8 @@ add name=olilo connect-to=l2tp.olilo.co.uk \
 /interface list member
 add list=WAN interface=olilo comment="Olilo L2TP"
 
-# Add DHCPv6 Client
+# Add DHCPv6 Client, for our /48 and Tunnel IP
+# This requests our /48 route to be routed over the L2TP tunnel
 /ipv6 dhcp-client
 add interface=olilo pool-name=olilo request=address,prefix
 
@@ -149,7 +150,7 @@ Setup the gateways
    Enable `Gateway switching`
 
 2. Now we config the Gateways, go to System -> Gateways -> Configuration, edit each Olilo Gateway setting it as a `Upstream Gateway`
-   On the IPv4 gateway untick `Disable Gateway Monitoring`
+   On the IPv4 gateway only untick `Disable Gateway Monitoring`
 
 3. Press Apply
 ```
@@ -176,8 +177,17 @@ Press +
 
 Interface:      OliloL2TP
 Direction:      Any
-Description:    Olilo L2TP MSS Clamp
+Protocol:       IPv4
+Description:    Olilo L2TP MSS Clamp IPv4
 Max mss:        1420
+
+Create a second rule
+
+Interface:      OliloL2TP
+Direction:      Any
+Protocol:       IPv6
+Description:    Olilo L2TP MSS Clamp IPv6
+Max mss:        1400
 ```
 
 Finally we restart the L2TP session, to ensure all changes take effect
