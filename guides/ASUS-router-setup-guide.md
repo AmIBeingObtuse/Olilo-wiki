@@ -21,30 +21,30 @@ the following steps are slightly different. If you are not sure which physical n
 
 ### Openreach
 
-- For 'WAN Connection Type', near the top of the [page](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-OR-WAN1.png), select 'PPPoE'.
-- Scroll down to ['Account Settings'](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-OR-WAN2.png) and input the Username and Password supplied by Olilo.
+- For 'WAN Connection Type', near the top of the [page](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-OR-WAN1.png), select 'PPPoE'.
+- Scroll down to ['Account Settings'](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-OR-WAN2.png) and input the Username and Password supplied by Olilo.
 - The rest of the settings on this page can be left as default.
 - Click 'OK' at the bottom of the page to save the settings.
 
 ### CityFibre
 
-- For WAN Connection Type, near the top of the [page](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-WAN2.png), select 'Automatic IP'.
+- For WAN Connection Type, near the top of the [page](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-WAN2.png), select 'Automatic IP'.
 - Click 'OK' at the bottom of the page to save the settings.
-- Select ['LAN'](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-LAN.png) on the left menu. 
-- Select the ['IPTV'](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-IPTV1.png) tab at the top of the page.
-- On this [page](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-IPTV2.png), for 'Select ISP Profile' select 'Manual Setting'. Three new sections will appear.
+- Select ['LAN'](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-LAN.png) on the left menu. 
+- Select the ['IPTV'](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-IPTV1.png) tab at the top of the page.
+- On this [page](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-IPTV2.png), for 'Select ISP Profile' select 'Manual Setting'. Three new sections will appear.
 - On the 'Internet' line, type '911' next to 'VID'.
 - The rest of the settings on this page can be left as default.
 - Click Apply at the bottom of the page to save your settings.
 
 ### Freedom Fibre
 
-- For WAN Connection Type, near the top of the [page](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-WAN2.png), select 'Automatic IP'.
+- For WAN Connection Type, near the top of the [page](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-CF-WAN2.png), select 'Automatic IP'.
 - Click 'OK' at the bottom of the page to save the settings.
 
 ### IPv6
 
-- To activate IPv6, select the 'IPv6' [page](https://githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-IPv6.png) option in the left menu.
+- To activate IPv6, select the 'IPv6' [page](https://raw.githubusercontent.com/Team-Olilo/wiki/main/images/asus-router-IPv6.png) option in the left menu.
 - Select the 'Connection Type' as 'Native'.
 - Click Apply at the bottom of the page to save your settings.
 
