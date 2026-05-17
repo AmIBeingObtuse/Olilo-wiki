@@ -113,10 +113,11 @@ If you only see an IPv4 address, ensure your client has an IPv6 address. You may
 
 L2TP is added as a point-to-point device, then assigned as an interface.
 
-```text
-Interfaces -> Devices -> Point-to-Point
-Press +
+#### 1. Create the L2TP device
 
+Go to **Interfaces -> Devices -> Point-to-Point** and press **+**.
+
+```text
 Type:              L2TP
 Link interface:    Your WAN
 Description:       Olilo L2TP
@@ -126,63 +127,79 @@ Local IP:          Leave Default
 Gateway:           82.39.94.1 (OPNsense doesn't support using a domain name)
 ```
 
-Then assign and enable it:
+**Save**
+
+#### 2. Assign and enable the interface
+
+Go to **Interfaces -> Assignments**, assign a new interface, select the new L2TP interface and name it `Olilo L2TP`. Then edit it:
 
 ```text
-Interfaces -> Assignments
-Assign a new interface, and select our new L2TP interface name it Olilo L2TP
-
-Edit the new Interface
-Enable Interface
-IPv6 Configuration Type:  DHCPv6
+Enable Interface:          Tick
+IPv6 Configuration Type:   DHCPv6
 
 DHCPv6 client configuration
-Prefix delegation size:   48
+Prefix delegation size:    48
 Request DNS configuration: Untick
-
-Save and Apply Changes
 ```
 
-Setup the gateways
+**Save** and **Apply Changes**
+
+#### 3. Set up the gateways
+
+Go to **System -> Settings -> General**.
 
 ```text
-1. Go to System -> Settings -> General
-   Enable `Gateway switching`
-
-2. Now we config the Gateways, go to System -> Gateways -> Configuration, edit each Olilo Gateway setting it as a `Upstream Gateway`
-   On the IPv4 gateway only untick `Disable Gateway Monitoring`
-
-3. Press Apply
+Gateway switching: Tick
 ```
 
-Then set up IPv6 on each LAN:
+**Save**
+
+Then go to **System -> Gateways -> Configuration** and edit each Olilo Gateway, setting it as an `Upstream Gateway`.
 
 ```text
-1. Interfaces -> [LAN] -> IPv6 Configuration Type: Static IPv6
-   IPv6 address: a /64 from your /48, e.g. 2001:db8:abcd:1::1/64
-   Save and Apply Changes
-
-2. Services -> Router Advertisements
-   Press +
-   Interface: LAN
-   Mode: Stateless
-   Save and Apply
+Upstream Gateway:           Tick
+Disable Gateway Monitoring: Untick (IPv4 gateway only)
 ```
+
+**Save** and **Apply**
+
+#### 4. Set up IPv6 on each LAN
+
+Go to **Interfaces -> [LAN]**.
+
+```text
+IPv6 Configuration Type: Static IPv6
+IPv6 address:            a /64 from your /48, e.g. 2001:db8:abcd:1::1/64
+```
+
+**Save** and **Apply Changes**
+
+Then go to **Services -> Router Advertisements** and press **+**.
+
+```text
+Interface: LAN
+Mode:      Stateless
+```
+
+**Save** and **Apply**
+
+#### 5. Clamp TCP MSS
 
 Clamp TCP MSS to **1420** for IPv4 and **1400** for IPv6 so large packets don't stall.
 
-```
-Go to **Firewall -> Settings -> Normalization**
-Press +
+Go to **Firewall -> Settings -> Normalization** and press **+**.
 
+```text
 Interface:      OliloL2TP
 Direction:      Any
 Protocol:       IPv4
 Description:    Olilo L2TP MSS Clamp IPv4
 Max mss:        1420
+```
 
-Create a second rule
+Create a second rule:
 
+```text
 Interface:      OliloL2TP
 Direction:      Any
 Protocol:       IPv6
@@ -190,13 +207,15 @@ Description:    Olilo L2TP MSS Clamp IPv6
 Max mss:        1400
 ```
 
-Finally we restart the L2TP session, to ensure all changes take effect
+**Save** and **Apply Changes**
 
-```
-Go to Interfaces -> Devices -> Point-to-Point, look for Olilo, and then resave the configuration
+#### 6. Restart the L2TP session
 
-Wait 15 seconds
-```
+Finally, restart the L2TP session to ensure all changes take effect.
+
+Go to **Interfaces -> Devices -> Point-to-Point**, look for Olilo, and resave the configuration. Wait 15 seconds.
+
+#### 7. Verify
 
 Go to https://test-ipv6.com. You should now see ISP appearing as `OLILO` and hopefully an IPv4 and IPv6 address.  
 If you only see an IPv4 address, ensure your client has an IPv6 address. You may need to reconnect to your WiFi or Ethernet.
