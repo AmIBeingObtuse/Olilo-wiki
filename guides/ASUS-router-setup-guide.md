@@ -3,7 +3,7 @@ title: ASUS Router Setup Guide
 description: Guide on how to setup an ASUS router for use with Olilo
 category: Setup
 author: Joe Baxter (Corrie)
-lastUpdated: 02/19/2026
+lastUpdated: 05/17/2026
 ---
 
 # Introduction
