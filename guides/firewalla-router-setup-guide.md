@@ -24,6 +24,8 @@ Once you are in the app, navigate to the Network menu and select WAN Rather than
 - Ensure any VLAN settings are left blank or disabled, as Olilo does not require a VLAN on the Openreach network.
 - Tap 'Save' at the top or bottom of the screen to apply the settings. Your static IPv4 connection should authenticate straight away.
 
+
+
 ### IPv6
 
 - Setting up the prosumer static /48 block can be tricky. To begin, navigate to the IPv6 section within your WAN settings.
@@ -37,6 +39,10 @@ Once you are in the app, navigate to the Network menu and select WAN Rather than
 - Enable IPv6 and set it to 'Static' (replacing the initial DHCPv6 setting if it was active).
 - Use an address that matches your WAN block, replacing the final number to match your VLAN ID for easier segmentation. (e.g., `XX11:2XX6:1XX9:3::` for VLAN 3). See this Local LAN example.
 - Tap 'Save' on each local network.
+
+![FW-WAN](images/FW-WAN.png)
+![FW-LAN](images/FW-LAN.png)
+
 
 ## Still Stuck?
 
